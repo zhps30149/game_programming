@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #info {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            color: #ffff00
+        }
+
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info">HW0</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+    </script>
+    <script>
+        var renderer, camera, controls, scene;
+        var angle, train;
+        init();
+        animate();
+
+        function init() {
+            renderer = new THREE.WebGLRenderer({
+                antialias: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x888888);
+            document.body.appendChild(renderer.domElement);
+
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 50; // important
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            scene = new THREE.Scene();
+
+            let gridXZ = new THREE.GridHelper(100, 10, 'red', 'white');
+            scene.add(gridXZ);
+
+            let axes = new THREE.AxisHelper(10);
+            scene.add(axes);
+
+            let bottomGeometry = new THREE.BoxGeometry(8, 4, 18);
+            let bottomMaterial = new THREE.MeshNormalMaterial();
+            let bottom = new THREE.Mesh(bottomGeometry, bottomMaterial);
+            bottom.position.y = 2;
+
+            let headGeometry = new THREE.CylinderGeometry(2.5, 2.5, 18);
+            let headMaterial = new THREE.MeshNormalMaterial();
+            let head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 6;
+            head.rotation.x = Math.PI / 2;
+
+            let bodyGeometry = new THREE.BoxGeometry(8, 7, 6);
+            let bodyMaterial = new THREE.MeshNormalMaterial();
+            let body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 7;
+            body.position.z = 6;
+
+            let body2Geometry = new THREE.BoxGeometry(8, 2.5, 8);
+            let body2Material = new THREE.MeshNormalMaterial();
+            let body2 = new THREE.Mesh(body2Geometry, body2Material);
+            body2.position.y = 5.25;
+            body2.position.z = -1;
+
+            let chimneyGeometry = new THREE.CylinderGeometry(1, 1, 9);
+            let chimneyMaterial = new THREE.MeshNormalMaterial();
+            let chimney = new THREE.Mesh(chimneyGeometry, chimneyMaterial);
+            chimney.position.y = 6;
+            chimney.position.z = -7;
+
+            let leftWheelGeometry = new THREE.CylinderGeometry(2, 2, 0.5);
+            let leftWheelMaterial = new THREE.MeshNormalMaterial();
+            let leftWheel = new THREE.Mesh(leftWheelGeometry, leftWheelMaterial);
+            leftWheel.rotation.z = Math.PI / 2;
+            leftWheel.position.x = -3.5;
+            leftWheel.position.z = -6;
+
+            let leftWheel2Geometry = new THREE.CylinderGeometry(2, 2, 0.5);
+            let leftWheel2Material = new THREE.MeshNormalMaterial();
+            let leftWheel2 = new THREE.Mesh(leftWheel2Geometry, leftWheel2Material);
+            leftWheel2.rotation.z = Math.PI / 2;
+            leftWheel2.position.x = -3.5;
+            leftWheel2.position.z = 0;
+
+            let leftWheel3Geometry = new THREE.CylinderGeometry(2, 2, 0.5);
+            let leftWheel3Material = new THREE.MeshNormalMaterial();
+            let leftWheel3 = new THREE.Mesh(leftWheel3Geometry, leftWheel3Material);
+            leftWheel3.rotation.z = Math.PI / 2;
+            leftWheel3.position.x = -3.5;
+            leftWheel3.position.z = 6;
+
+            let rightWheelGeometry = new THREE.CylinderGeometry(2, 2, 0.5);
+            let rightWheelMaterial = new THREE.MeshNormalMaterial();
+            let rightWheel = new THREE.Mesh(leftWheelGeometry, leftWheelMaterial);
+            rightWheel.rotation.z = Math.PI / 2;
+            rightWheel.position.x = 3.5;
+            rightWheel.position.z = -6;
+
+            let rightWheel2Geometry = new THREE.CylinderGeometry(2, 2, 0.5);
+            let rightWheel2Material = new THREE.MeshNormalMaterial();
+            let rightWheel2 = new THREE.Mesh(leftWheel2Geometry, leftWheel2Material);
+            rightWheel2.rotation.z = Math.PI / 2;
+            rightWheel2.position.x = 3.5;
+            rightWheel2.position.z = 0;
+
+            let rightWheel3Geometry = new THREE.CylinderGeometry(2, 2, 0.5);
+            let rightWheel3Material = new THREE.MeshNormalMaterial();
+            let rightWheel3 = new THREE.Mesh(leftWheel3Geometry, leftWheel3Material);
+            rightWheel3.rotation.z = Math.PI / 2;
+            rightWheel3.position.x = 3.5;
+            rightWheel3.position.z = 6;
+
+            train = new THREE.Group();
+            train.add(bottom);
+            train.add(head);
+            train.add(body);
+            train.add(body2);
+            train.add(chimney);
+            train.add(leftWheel);
+            train.add(leftWheel2);
+            train.add(leftWheel3);
+            train.add(rightWheel);
+            train.add(rightWheel2);
+            train.add(rightWheel3);
+            scene.add(train);
+            angle = 0;
+        }
+
+        function animate() {
+            angle += 0.005;
+            train.rotation.y = angle;
+            train.position.set(40 * Math.cos(angle), 2, -40 * Math.sin(angle));
+            controls.update();
+            renderer.render(scene, camera);
+
+            requestAnimationFrame(animate);
+        }
+    </script>
+</body>
+
+</html>
