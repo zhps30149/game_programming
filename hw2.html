@@ -99,9 +99,9 @@ body {
                             b2vel.copy(b2.vel);
                             b1.vel.sub(b1.pos.clone().sub(b2.pos.clone()).multiplyScalar(b1vel.clone().sub(b2vel.clone()).dot(b1.pos.clone().sub(b2.pos.clone())) / (d * d)));
                             b2.vel.sub(b2.pos.clone().sub(b1.pos.clone()).multiplyScalar(b2vel.clone().sub(b1vel.clone()).dot(b2.pos.clone().sub(b1.pos.clone())) / (d * d)));
-                            if (Math.cos(b1.vel.angleTo(b2.vel)) < 0) {
-                                b1.pos.copy(c.clone().add(b1.vel.clone().divideScalar(b1.vel.length()).multiplyScalar(20)));
-                                b2.pos.copy(c.clone().add(b2.vel.clone().divideScalar(b2.vel.length()).multiplyScalar(20)));
+                            if (Math.cos(b1.vel.angleTo(b2.vel)) <= 0) {
+                                b1.pos.copy(c.clone().add(b1vel.clone().divideScalar(b1vel.length()).multiplyScalar(-20)));
+                                b2.pos.copy(c.clone().add(b2vel.clone().divideScalar(b2vel.length()).multiplyScalar(-20)));
                             }
 
 
